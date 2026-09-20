@@ -3,7 +3,7 @@ import type { Profile } from "@/types/portfolio";
 
 export const profile: Profile = {
 
-    name: "Matheus ",
+    name: "Matheus Felix",
     role: "Software Developer",
     summary: "Desenvolvedor focado em aplicações web.",
     professionalSince: 2023,
