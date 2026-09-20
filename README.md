@@ -14,16 +14,15 @@ claro, escuro e sistema.
 </details>
 
 Capturas reais do build de produção local em 1440 × 900 e 375 × 900px.
-**Publicação em andamento:** projeto `matheus-felix-portfolio` configurado na
-Vercel, no workspace MatheusDev (Hobby). A URL atribuída é
-`https://matheus-felix-portfolio.vercel.app`; o primeiro deploy ainda precisa
-ser confirmado. Consulte o [guia de publicação](docs/deployment.md).
+**Site publicado:** [matheus-felix-portfolio.vercel.app](https://matheus-felix-portfolio.vercel.app).
+Hospedado na Vercel, no workspace MatheusDev (Hobby), com deploy pela branch
+`main`. Consulte o [guia de publicação](docs/deployment.md).
 
 ## Estado do projeto
 
 - Milestones 1 a 5 implementados: base, design system, Home, cases, currículo e contato.
 - Milestone 6: SEO, layout, teclado, temas e medição de performance em laboratório revisados; limites da validação descritos abaixo.
-- Milestone 7: README, screenshots e workflow de CI preparados; execução no GitHub, deploy e validação pública pendentes.
+- Milestone 7: README, screenshots, CI no GitHub e deploy na Vercel concluídos; site público validado.
 - Perfil em `src/data/profile.ts`, com os contatos fornecidos por Matheus.
 - Experiências em andamento usam `endDate: null` ou omitem a propriedade.
 - PDF e detalhes ainda não confirmados dos cases permanecem como TODO.
@@ -74,8 +73,8 @@ O [workflow de CI](.github/workflows/ci.yml) executa `npm ci`, lint, typecheck,
 testes, build e auditoria HTTP. É acionado em pushes na `main`, pull requests
 para `main` e manualmente pelo GitHub Actions. Usa cache do npm, permissão
 somente de leitura e encerra o servidor temporário após a auditoria.
-Não requer secrets nem realiza deploy. O resultado remoto só pode ser confirmado
-depois que o workflow estiver no GitHub e terminar uma execução.
+Não requer secrets nem realiza deploy. A integração da Vercel publica a `main`
+separadamente. Consulte as [execuções do CI](https://github.com/Matheus1221/MatheusFelixDev/actions/workflows/ci.yml).
 
 ## Stack e arquitetura
 
@@ -165,9 +164,10 @@ Valor inválido interrompe o build. O favicon é `/icon.svg`; `/og` gera o PNG s
 ## Validações e limites
 
 Lint, typecheck, 13 testes, build e auditoria HTTP passaram localmente após as
-alterações de perfil e formação. O HTML da Home e do currículo foi conferido
+alterações de perfil, formação e cases. O HTML da Home e do currículo foi conferido
 com o curso iniciado em 2019, o vínculo atual e somente datas reais em `time`.
-O workflow teve a sintaxe YAML validada; ainda não houve execução no GitHub.
+O [primeiro CI remoto](https://github.com/Matheus1221/MatheusFelixDev/actions/runs/35479899825)
+passou no commit `2a6e057`, incluindo instalação limpa e auditoria HTTP em Linux.
 
 O layout foi medido no Chrome em 320, 375, 425, 768, 1024, 1440 e 1920px:
 cinco páginas × sete larguras × dois temas, sem transbordamento horizontal.
@@ -191,16 +191,23 @@ CLS 0 e TBT de 106ms. Esses resultados são de laboratório, não dados de visit
 Não foi medido INP. Refluxo foi testado por emulação de viewport equivalente a
 200% e 400%; isso não substitui zoom real ou avaliação humana com leitor de tela.
 O tema salvo foi conferido no DOMContentLoaded, sem uma análise visual quadro a
-quadro do primeiro carregamento. O site publicado ainda precisa ser validado.
+quadro do primeiro carregamento.
 
-## Pendências para publicação
+O primeiro deploy foi validado em 19/09/2026 na URL pública: cinco páginas,
+links internos, 404, CSS, canônicas, robots, sitemap, favicon e imagem social.
+Teclado, nomes acessíveis, refluxo e persistência dos temas também passaram no
+Chrome acessando a produção. A auditoria remota normaliza a barra final da
+origem antes de comparar a canônica da Home.
+
+## Conteúdo a complementar
 
 - Adicionar o currículo PDF final.
 - Confirmar o ano inicial da experiência profissional e a instituição/conclusão do curso técnico.
 - Confirmar atribuições profissionais, status, arquiteturas, stack divulgável e imagens dos cases.
 - Detalhar a investigação e a correção dos UPDATEs sem inventar métricas.
-- Executar o CI remoto e validar o primeiro deploy; Vercel e `SITE_URL` já estão configurados.
-- Adicionar o link público ao README e fixar o repositório no perfil quando apropriado.
+- Revisar a relação entre PostgreSQL na stack atual e o caso de MySQL mantido no Deixa na Conta.
+- Se desejar apresentar o código publicamente, decidir a visibilidade do repositório antes de fixá-lo no perfil.
 
-O próximo passo continua sendo concluir o Milestone 7. Melhorias opcionais como
-analytics, formulário, CMS ou backend ficam para depois da publicação.
+O MVP está publicado. O próximo passo é complementar o conteúdo confirmado
+nos arquivos de dados e enviar as alterações para `main`. Melhorias opcionais
+como analytics, formulário, CMS ou backend ficam para uma decisão posterior.

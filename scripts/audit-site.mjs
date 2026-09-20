@@ -38,7 +38,10 @@ for (const route of routes) {
   assert.match(html, /name="twitter:card"/);
   assert.match(html, /rel="icon"/);
   if (remote) {
-    assert.equal(html.match(/rel="canonical" href="([^"]+)"/)?.[1], new URL(route, origin).href, `Canonical: ${route}`);
+    const canonical = html.match(/rel="canonical" href="([^"]+)"/)?.[1];
+    assert.ok(canonical, `Missing canonical: ${route}`);
+    // A root URL with or without its trailing slash identifies the same page.
+    assert.equal(new URL(canonical).href, new URL(route, origin).href, `Canonical: ${route}`);
     assert.match(html, /name="robots" content="index, follow"/);
   }
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];

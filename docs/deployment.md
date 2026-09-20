@@ -3,14 +3,14 @@
 O projeto está vinculado à Vercel, no workspace **MatheusDev** (`matheus-dev11`),
 plano **Hobby**, com o nome **matheus-felix-portfolio**. O repositório privado
 `Matheus1221/MatheusFelixDev` foi conectado sem alterar sua visibilidade.
-A URL atribuída é `https://matheus-felix-portfolio.vercel.app`.
-O primeiro deploy e a execução remota do CI ainda precisam ser confirmados.
+A URL pública é [matheus-felix-portfolio.vercel.app](https://matheus-felix-portfolio.vercel.app).
+O primeiro deploy está **Ready** e o CI passou no commit `2a6e057` em 19/09/2026.
 
 ## Preparar o repositório
 
 O remoto atual é `Matheus1221/MatheusFelixDev`, com branch principal `main`.
-Envie os arquivos do projeto, incluindo `package-lock.json`, o workflow de CI
-e as capturas em `docs/screenshots/`. Não envie `.env.local`, `.next/` ou
+Os arquivos do projeto, incluindo `package-lock.json`, o workflow de CI
+e as capturas em `docs/screenshots/`, estão versionados. Não envie `.env.local`, `.next/` ou
 `node_modules/`; esses caminhos estão no `.gitignore`.
 
 O repositório foi encontrado como privado. A hospedagem pode receber acesso
@@ -65,7 +65,7 @@ padrão, sem configuração de exportação estática.
 
 ## Conferir o site publicado
 
-Depois do deploy, abra a URL real e verifique:
+Ao atualizar o site, abra a URL real e verifique:
 
 - Home, currículo, contato e os dois cases, incluindo recarregamento direto de cada rota.
 - Um slug de projeto inexistente retornando 404.
@@ -86,5 +86,11 @@ Ela também verifica canônicas, indexação e as cinco URLs do sitemap.
 Registre a revisão efetivamente publicada. Meça também performance e
 acessibilidade no navegador; não deduza Core Web Vitals do build.
 
-Por fim, adicione a URL ao README e ao campo Website do repositório. Quando o
-repositório estiver apropriado para apresentação pública, fixe-o no perfil.
+Na primeira publicação, a auditoria HTTP passou para as cinco páginas e todos
+os recursos listados. O Chrome também verificou teclado, foco, temas e refluxo
+nas cinco páginas de produção. O resultado do CI está nesta
+[execução](https://github.com/Matheus1221/MatheusFelixDev/actions/runs/35479899825).
+
+A URL já está no README. O campo Website, os topics e a apresentação pública
+do repositório podem ser preenchidos no GitHub quando ele for usado como
+material público. Fixá-lo no perfil depende dessa decisão de visibilidade.
