@@ -52,7 +52,7 @@ export default function HomePage() {
           </div>
           <div className="prose">
             <p>Sou {profile.name}, {profile.role}, com experiência profissional em desenvolvimento desde {profile.professionalSince}. Minha atuação reúne frontend, backend, banco de dados e deploy, com participação em sistemas utilizados em contexto profissional real.</p>
-            <p>No GET DOC, participei do desenvolvimento em diferentes camadas da solução. No Deixa na Conta, atuei da modelagem ao deploy e na correção de um gargalo em operações de atualização no MySQL.</p>
+            <p>No GET DOC, participei do desenvolvimento em diferentes camadas da solução. No Deixa na Conta, atuei na evolução da autenticação, das configurações de conta e do compartilhamento de cobranças, além de contribuir em entregas colaborativas.</p>
             <div className="education-note">
               <span className="muted">Formação em andamento</span>
               <strong>{profile.education.course}</strong>

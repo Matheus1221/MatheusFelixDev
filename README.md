@@ -117,7 +117,7 @@ instalados; revisar essa restrição antes de atualizar a versão principal.
 | --- | --- |
 | `/` | Apresentação, projetos, sobre, experiência, stack e contato |
 | `/projetos/get-doc` | Case proprietário e escala confirmada |
-| `/projetos/deixa-na-conta` | Case de cobranças e gargalo de UPDATEs no MySQL |
+| `/projetos/deixa-na-conta` | Gestão financeira e caso técnico de configurações da conta |
 | `/curriculo` | Currículo HTML e PDF quando disponível |
 | `/contato` | Canais profissionais confirmados |
 
@@ -146,13 +146,23 @@ slugs desconhecidos retornam 404.
 
 Seções opcionais dos cases e seus links de navegação só aparecem quando há
 conteúdo: status, arquitetura, tecnologias, imagens e links públicos. Arrays
-de parágrafos vazios também não geram seções. No caso de performance, preencha
+de parágrafos vazios também não geram seções. Em `technicalCase`, preencha
 `investigation`, `correction` e `result` apenas quando houver informações
 confirmadas; cada etapa pode ser omitida. Mantenha TODOs em comentários do
 código, não nos textos exibidos. A auditoria HTTP rejeita `TODO:` no HTML público.
 
 GET DOC mantém o aviso de código proprietário. A stack do Deixa na Conta foi
-atualizada por Matheus em `src/content/projects.ts`. A stack geral do perfil não deve ser atribuída
+confirmada nas anotações fornecidas por Matheus: Next.js, React, TypeScript,
+PostgreSQL, Auth0 e libphonenumber-js. O relato de UPDATEs no MySQL foi retirado,
+assim como a atribuição de atuação da modelagem ao deploy. O case distingue
+funcionalidades do produto, contribuições individuais e entregas colaborativas,
+com foco técnico na evolução das configurações da conta, sem métricas de performance.
+
+`contributions` contém blocos de título e descrição para a atuação. `architecture`
+aceita texto ou blocos; `technicalCase` contém título e as etapas do relato técnico.
+`repositoryPrivate: true` oculta links de repositório e identifica o código privado,
+preservando a possibilidade de exibir uma aplicação pública autorizada.
+A stack geral do perfil não deve ser atribuída
 automaticamente aos projetos. Imagens só devem ser incluídas com divulgação
 autorizada, dimensões e legendas; as capas atuais são tipográficas.
 
@@ -211,8 +221,7 @@ origem antes de comparar a canônica da Home.
 - Adicionar o currículo PDF final.
 - Confirmar o ano inicial da experiência profissional e a instituição/conclusão do curso técnico.
 - Confirmar atribuições profissionais, status, arquiteturas, stack divulgável e imagens dos cases.
-- Detalhar a investigação e a correção dos UPDATEs sem inventar métricas.
-- Revisar a relação entre PostgreSQL na stack atual e o caso de MySQL mantido no Deixa na Conta.
+- Complementar detalhes da DataTable, screenshots autorizadas e informações de deploy do Deixa na Conta.
 - Se desejar apresentar o código publicamente, decidir a visibilidade do repositório antes de fixá-lo no perfil.
 
 O MVP está publicado. O próximo passo é complementar o conteúdo confirmado

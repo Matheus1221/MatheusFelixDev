@@ -13,6 +13,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       <div className="project-content">
         <div className="project-labels">
           {project.proprietary && <Badge>Projeto proprietário</Badge>}
+          {project.repositoryPrivate && <Badge>Código-fonte privado</Badge>}
           {project.technologies.map((technology) => <Badge key={technology}>{technology}</Badge>)}
         </div>
         <h3 id={`${project.slug}-title`}>{project.title}</h3>
@@ -25,7 +26,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
           <div className="project-details-content">
             <p>{project.role}</p>
             {project.confidentialityNotice && <p className="muted">{project.confidentialityNotice}</p>}
-            {project.githubUrl && <a className="text-link" href={project.githubUrl}>Repositório de {project.title}</a>}
+            {!project.proprietary && !project.repositoryPrivate && project.githubUrl && <a className="text-link" href={project.githubUrl}>Repositório de {project.title}</a>}
             {project.liveUrl && <a className="text-link" href={project.liveUrl}>Acessar {project.title}</a>}
           </div>
         </details>

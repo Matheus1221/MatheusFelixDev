@@ -294,8 +294,8 @@ a.button { text-decoration: none; }
 .case-body .content-pending { margin-top: var(--space-4); }
 .architecture-description { white-space: pre-line; }
 .case-callout { padding: var(--space-4) var(--space-6); background: var(--accent-soft); border-left: 2px solid var(--accent); }
-.performance-step { margin-top: var(--space-6); }
-.performance-step h3 { font-size: 1.125rem; margin: 0; }
+.case-detail { margin-top: var(--space-6); }
+.case-detail h3 { font-size: 1.125rem; margin: 0; }
 .project-gallery { display: grid; gap: var(--space-8); }
 .project-gallery figure { margin: 0; }
 .project-gallery img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: var(--radius); }

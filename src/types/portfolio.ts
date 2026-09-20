@@ -31,6 +31,11 @@ export type StackGroup = {
   technologies: readonly string[];
 };
 
+export type CaseStudyBlock = {
+  title: string;
+  description: string;
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -40,6 +45,7 @@ export type Project = {
   technologies: readonly string[];
   highlights: readonly string[];
   proprietary?: boolean;
+  repositoryPrivate?: boolean;
   confidentialityNotice?: string;
   githubUrl?: string;
   liveUrl?: string;
@@ -48,10 +54,12 @@ export type Project = {
     problem: readonly string[];
     solution: readonly string[];
     participation: readonly string[];
+    contributions?: readonly CaseStudyBlock[];
     status?: string;
     metrics?: readonly { value: string; label: string }[];
-    architecture?: string;
-    performance?: {
+    architecture?: string | readonly CaseStudyBlock[];
+    technicalCase?: {
+      title: string;
       problem: string;
       investigation?: string;
       correction?: string;

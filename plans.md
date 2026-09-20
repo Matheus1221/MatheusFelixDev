@@ -155,11 +155,18 @@ Informações sustentadas:
 
 ### Projeto: Deixa na Conta
 
-Informações sustentadas:
+Informações atualizadas pelas anotações fornecidas por Matheus:
 
-- aplicação para controle de cobranças e pagamentos;
-- participação da modelagem ao deploy;
-- identificação e correção de gargalo envolvendo `UPDATE`s mal otimizados no MySQL.
+- aplicação de gestão financeira e de clientes, cobranças e pagamentos;
+- atuação em autenticação, configurações de conta, assinaturas, visualização de clientes e compartilhamento de cobranças;
+- distinguir funcionalidades do produto, contribuições individuais e entregas colaborativas;
+- Next.js, React, TypeScript, PostgreSQL, Auth0 e libphonenumber-js;
+- caso técnico: evolução do fluxo de configurações da conta;
+- código-fonte privado, sem links para PRs ou issues privadas;
+- deploy, infraestrutura, imagens autorizadas e detalhes adicionais da DataTable ainda precisam de confirmação.
+
+As anotações substituem o relato anterior de otimização de UPDATEs no MySQL.
+Não há evidência suficiente para esse caso de performance ou para atribuir atuação da modelagem ao deploy.
 
 ## Regra absoluta de conteúdo
 
@@ -644,11 +651,11 @@ Card deve conter:
 
 Texto base:
 
-> Aplicação para controle de cobranças e pagamentos, desenvolvida da modelagem ao deploy.
+> Aplicação de gestão financeira e de clientes, com controle de cobranças e pagamentos.
 
 Destaque:
 
-> Durante o desenvolvimento, foi identificado e corrigido um gargalo relacionado a operações `UPDATE` mal otimizadas no MySQL.
+> Evolução de autenticação, configurações de conta e compartilhamento de cobranças, com participação em entregas colaborativas.
 
 Não informar ganho percentual sem dado real.
 
@@ -860,35 +867,31 @@ Exibir:
 5. Minha atuação
 6. Arquitetura
 7. Stack
-8. Caso de performance
+8. Caso técnico
 9. Imagens
 10. Links
 
-## Caso de performance
+## Caso técnico — evolução do fluxo de configurações da conta
 
 Criar seção técnica específica.
 
 ### Problema
 
-Durante o desenvolvimento foi identificado um gargalo relacionado a operações `UPDATE` mal otimizadas no MySQL.
+O fluxo de configurações acumulava responsabilidades do formulário, regras de negócio, atualização dos dados e comunicação com o servidor.
 
 ### Investigação
 
-```text
-TODO: documentar, com fatos reais, como o gargalo foi identificado.
-```
+Foram identificados tratamentos manuais e responsabilidades que poderiam ser melhor distribuídas, além da necessidade de tratar valores ausentes, telefone, autenticação, atualização da interface e operações assíncronas.
 
 ### Correção
 
-```text
-TODO: documentar, com fatos reais, como a consulta/operação foi corrigida.
-```
+Reorganização entre interface, casos de uso, actions e dados; uso dos dados da conta como valores iniciais; redução de resets manuais; tratamento assíncrono, feedback visual e refinamento de models/schemas.
 
 ### Resultado
 
-Não informar números até existir dado confirmado.
+Fluxo mais organizado, responsabilidades mais definidas e menos manipulação manual do estado do formulário. O caminho dos dados entre interface, regras de negócio e persistência ficou mais claro.
 
-A força deste case deve estar na **capacidade de identificar, investigar e corrigir um problema real**, não em métricas inventadas.
+Não atribuir ganhos de velocidade ou métricas de performance. Usar PostgreSQL e não assumir padrões formais de arquitetura sem confirmação. Manter referências de PRs/commits somente nas anotações internas.
 
 ---
 

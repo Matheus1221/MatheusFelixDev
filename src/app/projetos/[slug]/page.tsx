@@ -31,12 +31,13 @@ export default async function ProjectPage({ params }: Props) {
   const project = getProjectBySlug((await params).slug);
   if (!project) notFound();
   const study = project.caseStudy;
-  const hasArchitecture = Boolean(study.architecture?.trim());
+  const hasArchitecture = typeof study.architecture === "string"
+    ? Boolean(study.architecture.trim())
+    : Boolean(study.architecture?.length);
   const hasTechnologies = project.technologies.length > 0;
   const hasImages = Boolean(project.images?.length);
-  const hasCode = project.proprietary
-    ? Boolean(project.confidentialityNotice)
-    : Boolean(project.githubUrl || project.liveUrl);
+  const canShowRepository = !project.proprietary && !project.repositoryPrivate;
+  const hasCode = Boolean(project.confidentialityNotice || project.liveUrl || (canShowRepository && project.githubUrl));
   const nextProject = projects.find((item) => item.slug !== project.slug);
   const sections = [
     { id: "contexto", title: "Contexto", text: study.context },
@@ -44,7 +45,7 @@ export default async function ProjectPage({ params }: Props) {
     { id: "solucao", title: "Solução", text: study.solution },
     { id: "participacao", title: "Minha atuação", text: study.participation },
   ].map((section) => ({ ...section, text: section.text.filter((paragraph) => paragraph.trim()) }))
-    .filter((section) => section.text.length > 0);
+    .filter((section) => section.text.length > 0 || (section.id === "participacao" && study.contributions?.length));
 
   return (
     <main id="conteudo" tabIndex={-1}>
@@ -55,8 +56,9 @@ export default async function ProjectPage({ params }: Props) {
             <p className="eyebrow">Projeto / Estudo de caso</p>
             <Heading as="h1">{project.title}</Heading>
             <p className="case-description">{project.shortDescription}</p>
-            {(project.proprietary || hasTechnologies) && <div className="project-labels">
+            {(project.proprietary || project.repositoryPrivate || hasTechnologies) && <div className="project-labels">
               {project.proprietary && <Badge>Projeto proprietário</Badge>}
+              {project.repositoryPrivate && <Badge>Código-fonte privado</Badge>}
               {project.technologies.map((technology) => <Badge key={technology}>{technology}</Badge>)}
             </div>}
             {project.confidentialityNotice && <p className="case-notice">{project.confidentialityNotice}</p>}
@@ -78,7 +80,7 @@ export default async function ProjectPage({ params }: Props) {
               {sections.map((section) => <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>)}
               {hasArchitecture && <li><a href="#arquitetura">Arquitetura</a></li>}
               {hasTechnologies && <li><a href="#tecnologias">Tecnologias</a></li>}
-              {study.performance && <li><a href="#performance">Caso de performance</a></li>}
+              {study.technicalCase && <li><a href="#caso-tecnico">Caso técnico</a></li>}
               {hasImages && <li><a href="#imagens">Imagens</a></li>}
               {hasCode && <li><a href="#codigo">Código e links</a></li>}
             </ul>
@@ -88,6 +90,12 @@ export default async function ProjectPage({ params }: Props) {
               <section key={section.id} id={section.id} aria-labelledby={`${section.id}-title`}>
                 <Heading id={`${section.id}-title`}>{section.title}</Heading>
                 {section.text.map((paragraph, index) => <p key={`${section.id}-${index}`}>{paragraph}</p>)}
+                {section.id === "participacao" && study.contributions?.map((contribution) => (
+                  <div className="case-detail" key={contribution.title}>
+                    <h3>{contribution.title}</h3>
+                    <p>{contribution.description}</p>
+                  </div>
+                ))}
               </section>
             ))}
             {hasArchitecture && <section id="arquitetura" aria-labelledby="architecture-title">
@@ -100,16 +108,17 @@ export default async function ProjectPage({ params }: Props) {
                 {project.technologies.map((technology) => <li key={technology}><Badge>{technology}</Badge></li>)}
               </ul>
             </section>}
-            {study.performance && (
-              <section id="performance" aria-labelledby="performance-title">
-                <Heading id="performance-title">Caso de performance</Heading>
+            {study.technicalCase && (
+              <section id="caso-tecnico" aria-labelledby="technical-case-title">
+                <Heading id="technical-case-title">Caso técnico</Heading>
+                <p className="case-callout">{study.technicalCase.title}</p>
                 {([
-                  ["Problema", study.performance.problem],
-                  ["Investigação", study.performance.investigation],
-                  ["Correção", study.performance.correction],
-                  ["Resultado", study.performance.result],
+                  ["Problema", study.technicalCase.problem],
+                  ["Investigação", study.technicalCase.investigation],
+                  ["Correção", study.technicalCase.correction],
+                  ["Resultado", study.technicalCase.result],
                 ] as const).filter(([, text]) => text?.trim()).map(([title, text]) => (
-                  <div className="performance-step" key={title}><h3>{title}</h3><p>{text}</p></div>
+                  <div className="case-detail" key={title}><h3>{title}</h3><p>{text}</p></div>
                 ))}
               </section>
             )}
@@ -119,14 +128,10 @@ export default async function ProjectPage({ params }: Props) {
             </section>}
             {hasCode && <section id="codigo" aria-labelledby="code-title">
               <Heading id="code-title">Código e links</Heading>
-              {project.proprietary ? (
-                <p>{project.confidentialityNotice}</p>
-              ) : (
-                <>
-                  {project.githubUrl && <a className="text-link" href={project.githubUrl}>Ver repositório de {project.title} ↗</a>}
-                  {project.liveUrl && <a className="text-link" href={project.liveUrl}>Acessar {project.title} ↗</a>}
-                </>
-              )}
+              {project.repositoryPrivate && <h3>Código-fonte privado</h3>}
+              {project.confidentialityNotice && <p>{project.confidentialityNotice}</p>}
+              {canShowRepository && project.githubUrl && <a className="text-link" href={project.githubUrl}>Ver repositório de {project.title} ↗</a>}
+              {project.liveUrl && <a className="text-link" href={project.liveUrl}>Acessar {project.title} ↗</a>}
             </section>}
           </div>
         </Container>
