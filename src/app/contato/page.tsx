@@ -12,6 +12,7 @@ export const metadata = createPageMetadata(
 );
 
 export default function ContactPage() {
+  const availableChannels = channels.filter((channel) => channel.href);
 
   return (
     <main id="conteudo" tabIndex={-1}>
@@ -24,20 +25,16 @@ export default function ContactPage() {
             <Link className="text-link" href="/curriculo">Conheça minha trajetória <span aria-hidden="true">↗</span></Link>
           </div>
           <div>
-            <dl className="contact-channels">
-              {channels.map((channel) => (
+            {availableChannels.length > 0 && <dl className="contact-channels">
+              {availableChannels.map((channel) => (
                 <div key={channel.label}>
                   <dt>{channel.label}</dt>
                   <dd>
-                    {channel.href ? (
-                      <a className="text-link" href={channel.href}>{channel.value} <span aria-hidden="true">↗</span></a>
-                    ) : (
-                      <p className="content-pending">TODO: confirmar informação com Matheus.</p>
-                    )}
+                    <a className="text-link" href={channel.href}>{channel.value} <span aria-hidden="true">↗</span></a>
                   </dd>
                 </div>
               ))}
-            </dl>
+            </dl>}
             {contact.location && <p className="muted">Localização: {contact.location}</p>}
             {contact.availability && <p className="muted">{contact.availability}</p>}
           </div>

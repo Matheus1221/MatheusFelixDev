@@ -22,6 +22,7 @@ for (const route of routes) {
   for (const stylesheet of pageStylesheets) stylesheets.add(stylesheet);
   for (const match of raw.matchAll(/<script\b[^>]*src="([^"]+)"/g)) scripts.add(match[1]);
   const html = raw.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
+  assert.doesNotMatch(html, /\bTODO:/, `Unpublished editorial note: ${route}`);
   const ids = Array.from(html.matchAll(/\bid="([^"]+)"/g), (match) => match[1]);
   assert.equal(ids.length, new Set(ids).size, `Duplicate IDs: ${route}`);
   assert.match(html, /<html[^>]*lang="pt-BR"/);

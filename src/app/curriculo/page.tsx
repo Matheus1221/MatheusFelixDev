@@ -8,7 +8,6 @@ import { ExperienceTimeline } from "@/components/experience-timeline";
 import { ProfessionalLinks } from "@/components/professional-links";
 import { Container } from "@/components/ui/container";
 import { Heading } from "@/components/ui/heading";
-import type { Profile } from "@/types/portfolio";
 import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata(
@@ -18,7 +17,6 @@ export const metadata = createPageMetadata(
 );
 
 export default function ResumePage() {
-  const contact: Profile = profile;
   // Static page: adding or replacing the final PDF requires a new build.
   const hasPdf = existsSync(path.join(process.cwd(), "public", "documents", "cv.pdf"));
 
@@ -31,10 +29,9 @@ export default function ResumePage() {
           <p className="resume-role">{profile.role}</p>
           <ProfessionalLinks profile={profile} />
           <div className="resume-actions">
-            {hasPdf ? (
+            {/* TODO: adicionar CV final em public/documents/cv.pdf. */}
+            {hasPdf && (
               <a className="button button--primary" href="/documents/cv.pdf" download>Baixar currículo em PDF</a>
-            ) : (
-              <p className="content-pending">TODO: adicionar CV final.</p>
             )}
             <Link className="text-link" href="/contato">Ir para contato <span aria-hidden="true">↗</span></Link>
           </div>
@@ -97,9 +94,6 @@ export default function ResumePage() {
           <Heading id="resume-links">Links e contato</Heading>
           <div>
             <ProfessionalLinks profile={profile} />
-            {!contact.email && !contact.githubUrl && !contact.linkedinUrl && (
-              <p className="content-pending">TODO: confirmar informação com Matheus. Email, GitHub e LinkedIn.</p>
-            )}
             <Link className="text-link" href="/contato">Página de contato</Link>
           </div>
         </section>

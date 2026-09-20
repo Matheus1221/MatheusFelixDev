@@ -3,7 +3,7 @@ import type { ProjectImage } from "@/types/portfolio";
 
 export function ProjectGallery({ images = [] }: { images?: readonly ProjectImage[] }) {
   if (!images.length) {
-    return <p className="content-pending"></p>;
+    return null;
   }
 
   return (

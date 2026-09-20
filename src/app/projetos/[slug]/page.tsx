@@ -31,13 +31,20 @@ export default async function ProjectPage({ params }: Props) {
   const project = getProjectBySlug((await params).slug);
   if (!project) notFound();
   const study = project.caseStudy;
+  const hasArchitecture = Boolean(study.architecture?.trim());
+  const hasTechnologies = project.technologies.length > 0;
+  const hasImages = Boolean(project.images?.length);
+  const hasCode = project.proprietary
+    ? Boolean(project.confidentialityNotice)
+    : Boolean(project.githubUrl || project.liveUrl);
   const nextProject = projects.find((item) => item.slug !== project.slug);
   const sections = [
     { id: "contexto", title: "Contexto", text: study.context },
     { id: "problema", title: "Problema", text: study.problem },
     { id: "solucao", title: "Solução", text: study.solution },
     { id: "participacao", title: "Minha atuação", text: study.participation },
-  ];
+  ].map((section) => ({ ...section, text: section.text.filter((paragraph) => paragraph.trim()) }))
+    .filter((section) => section.text.length > 0);
 
   return (
     <main id="conteudo" tabIndex={-1}>
@@ -48,13 +55,13 @@ export default async function ProjectPage({ params }: Props) {
             <p className="eyebrow">Projeto / Estudo de caso</p>
             <Heading as="h1">{project.title}</Heading>
             <p className="case-description">{project.shortDescription}</p>
-            <div className="project-labels">
+            {(project.proprietary || hasTechnologies) && <div className="project-labels">
               {project.proprietary && <Badge>Projeto proprietário</Badge>}
               {project.technologies.map((technology) => <Badge key={technology}>{technology}</Badge>)}
-            </div>
+            </div>}
             {project.confidentialityNotice && <p className="case-notice">{project.confidentialityNotice}</p>}
-            <p className="case-status">Status: {study.status ?? "TODO: confirmar informação com Matheus."}</p>
-            {study.metrics && (
+            {study.status?.trim() && <p className="case-status">Status: {study.status}</p>}
+            {!!study.metrics?.length && (
               <dl className="case-metrics">
                 {study.metrics.map((metric) => (
                   <div key={metric.label}><dt>{metric.label}</dt><dd>{metric.value}</dd></div>
@@ -69,11 +76,11 @@ export default async function ProjectPage({ params }: Props) {
             <p className="eyebrow">Neste projeto</p>
             <ul>
               {sections.map((section) => <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>)}
-              <li><a href="#arquitetura">Arquitetura</a></li>
-              <li><a href="#tecnologias">Tecnologias</a></li>
+              {hasArchitecture && <li><a href="#arquitetura">Arquitetura</a></li>}
+              {hasTechnologies && <li><a href="#tecnologias">Tecnologias</a></li>}
               {study.performance && <li><a href="#performance">Caso de performance</a></li>}
-              <li><a href="#imagens">Imagens</a></li>
-              <li><a href="#codigo">Código e links</a></li>
+              {hasImages && <li><a href="#imagens">Imagens</a></li>}
+              {hasCode && <li><a href="#codigo">Código e links</a></li>}
             </ul>
           </nav>
           <div className="case-body">
@@ -83,37 +90,34 @@ export default async function ProjectPage({ params }: Props) {
                 {section.text.map((paragraph, index) => <p key={`${section.id}-${index}`}>{paragraph}</p>)}
               </section>
             ))}
-            <section id="arquitetura" aria-labelledby="architecture-title">
+            {hasArchitecture && <section id="arquitetura" aria-labelledby="architecture-title">
               <Heading id="architecture-title">Arquitetura</Heading>
               <ArchitectureBlock description={study.architecture} />
-            </section>
-            <section id="tecnologias" aria-labelledby="tech-title">
+            </section>}
+            {hasTechnologies && <section id="tecnologias" aria-labelledby="tech-title">
               <Heading id="tech-title">Tecnologias</Heading>
-              {!!project.technologies.length && (
-                <ul className="tech-list">
-                  {project.technologies.map((technology) => <li key={technology}><Badge>{technology}</Badge></li>)}
-                </ul>
-              )}
-            </section>
+              <ul className="tech-list">
+                {project.technologies.map((technology) => <li key={technology}><Badge>{technology}</Badge></li>)}
+              </ul>
+            </section>}
             {study.performance && (
               <section id="performance" aria-labelledby="performance-title">
                 <Heading id="performance-title">Caso de performance</Heading>
-                <p className="case-callout">Operações <code>UPDATE</code> no MySQL</p>
                 {([
                   ["Problema", study.performance.problem],
                   ["Investigação", study.performance.investigation],
                   ["Correção", study.performance.correction],
                   ["Resultado", study.performance.result],
-                ] as const).map(([title, text]) => (
+                ] as const).filter(([, text]) => text?.trim()).map(([title, text]) => (
                   <div className="performance-step" key={title}><h3>{title}</h3><p>{text}</p></div>
                 ))}
               </section>
             )}
-            <section id="imagens" aria-labelledby="images-title">
+            {hasImages && <section id="imagens" aria-labelledby="images-title">
               <Heading id="images-title">Imagens</Heading>
               <ProjectGallery images={project.images} />
-            </section>
-            <section id="codigo" aria-labelledby="code-title">
+            </section>}
+            {hasCode && <section id="codigo" aria-labelledby="code-title">
               <Heading id="code-title">Código e links</Heading>
               {project.proprietary ? (
                 <p>{project.confidentialityNotice}</p>
@@ -121,10 +125,9 @@ export default async function ProjectPage({ params }: Props) {
                 <>
                   {project.githubUrl && <a className="text-link" href={project.githubUrl}>Ver repositório de {project.title} ↗</a>}
                   {project.liveUrl && <a className="text-link" href={project.liveUrl}>Acessar {project.title} ↗</a>}
-                  {!project.githubUrl && !project.liveUrl && <p className="content-pending">TODO: confirmar informação com Matheus. Repositório e demonstração pública, se existirem.</p>}
                 </>
               )}
-            </section>
+            </section>}
           </div>
         </Container>
       </article>

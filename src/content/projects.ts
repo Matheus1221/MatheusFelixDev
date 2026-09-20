@@ -57,13 +57,15 @@ export const projects = [
       participation: ["Participei da construção da aplicação da modelagem ao deploy, incluindo a identificação e correção de um gargalo envolvendo operações UPDATE mal otimizadas no MySQL."],
       performance: {
         problem: "Gargalo relacionado a operações UPDATE mal otimizadas no MySQL.",
-        investigation: "TODO: confirmar informação com Matheus. Como o gargalo foi identificado e investigado.",
-        correction: "TODO: confirmar informação com Matheus. Como a consulta ou operação foi corrigida.",
-        result: "O gargalo foi corrigido. TODO: confirmar informação com Matheus. Evidências da validação e resultados mensurados, se existirem.",
+        // TODO: confirmar informação com Matheus. Como o gargalo foi identificado e investigado.
+        // TODO: confirmar informação com Matheus. Como a consulta ou operação foi corrigida.
+        result: "O gargalo foi corrigido.",
+        // TODO: confirmar informação com Matheus. Evidências da validação e resultados mensurados, se existirem.
       },
     },
     // images:[assets]
   },
 ] satisfies readonly Project[];
 
-// TODO: confirmar informação com Matheus. Arquiteturas reais e imagens permitidas.
+// TODO: confirmar informação com Matheus. Status, arquiteturas reais e imagens permitidas.
+// TODO: confirmar informação com Matheus. Repositório e demonstração pública, se existirem.

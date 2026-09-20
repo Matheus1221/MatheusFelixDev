@@ -8,7 +8,6 @@ import { stack } from "@/content/stack";
 import { ProjectCard } from "@/components/project/project-card";
 import { ExperienceTimeline } from "@/components/experience-timeline";
 import { ProfessionalLinks } from "@/components/professional-links";
-import type { Profile } from "@/types/portfolio";
 import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata(
@@ -16,8 +15,6 @@ export const metadata = createPageMetadata(
 );
 
 export default function HomePage() {
-  const contact: Profile = profile;
-
   return (
     <main id="conteudo" tabIndex={-1}>
       <Section className="intro" aria-labelledby="intro-title">
@@ -107,9 +104,6 @@ export default function HomePage() {
         <p className="contact-description">Sobre desenvolvimento web, projetos e oportunidades profissionais.</p>
         <Link className="button button--primary" href="/contato">Ir para contato <span aria-hidden="true">↗</span></Link>
         <ProfessionalLinks profile={profile} />
-        {!contact.email && !contact.githubUrl && !contact.linkedinUrl && (
-          <p className="content-pending">TODO: confirmar informação com Matheus. Email e links profissionais.</p>
-        )}
       </Section>
     </main>
   );

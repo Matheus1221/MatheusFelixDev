@@ -53,9 +53,9 @@ export type Project = {
     architecture?: string;
     performance?: {
       problem: string;
-      investigation: string;
-      correction: string;
-      result: string;
+      investigation?: string;
+      correction?: string;
+      result?: string;
     };
   };
   images?: readonly ProjectImage[];

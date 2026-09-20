@@ -25,7 +25,7 @@ Hospedado na Vercel, no workspace MatheusDev (Hobby), com deploy pela branch
 - Milestone 7: README, screenshots, CI no GitHub e deploy na Vercel concluídos; site público validado.
 - Perfil em `src/data/profile.ts`, com os contatos fornecidos por Matheus.
 - Experiências em andamento usam `endDate: null` ou omitem a propriedade.
-- PDF e detalhes ainda não confirmados dos cases permanecem como TODO.
+- PDF e detalhes ainda não confirmados dos cases permanecem como TODOs nos arquivos de manutenção, sem aparecer como anotações no site.
 
 O [plans.md](plans.md) define o escopo e a arquitetura. Informações posteriormente
 atualizadas por Matheus nos dados devem ser preservadas. As orientações de
@@ -143,6 +143,13 @@ O download do currículo só aparece quando `public/documents/cv.pdf` existe
 no build. Adicione o PDF final nesse caminho e gere outro build para habilitá-lo.
 Os projetos em `src/content/projects.ts` compartilham um template;
 slugs desconhecidos retornam 404.
+
+Seções opcionais dos cases e seus links de navegação só aparecem quando há
+conteúdo: status, arquitetura, tecnologias, imagens e links públicos. Arrays
+de parágrafos vazios também não geram seções. No caso de performance, preencha
+`investigation`, `correction` e `result` apenas quando houver informações
+confirmadas; cada etapa pode ser omitida. Mantenha TODOs em comentários do
+código, não nos textos exibidos. A auditoria HTTP rejeita `TODO:` no HTML público.
 
 GET DOC mantém o aviso de código proprietário. A stack do Deixa na Conta foi
 atualizada por Matheus em `src/content/projects.ts`. A stack geral do perfil não deve ser atribuída
