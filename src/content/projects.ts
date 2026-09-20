@@ -1,37 +1,7 @@
 import type { Project } from "@/types/portfolio";
 
 export const projects = [
-  {
-    slug: "get-doc",
-    title: "GET DOC",
-    shortDescription:
-      "Sistema de registro e tabulação de atendimentos utilizado em contexto profissional real.",
-    role: "Participação em frontend, backend, dados e deploy.",
-    featured: true,
-    // TODO: confirmar informação com Matheus. Tecnologias divulgáveis do GET DOC.
-    technologies: [],
-    highlights: [
-      "90 atendentes",
-      "Mais de 3.000 atendimentos registrados diariamente",
-    ],
-    proprietary: true,
-    confidentialityNotice:
-      "Projeto proprietário. O código não está disponível publicamente por política da empresa.",
-    caseStudy: {
-      context: ["Sistema de registro e tabulação de atendimentos utilizado em contexto profissional real."],
-      problem: ["Registrar e tabular os atendimentos de uma operação com 90 atendentes e mais de 3.000 atendimentos registrados diariamente."],
-      solution: [
-        "O GET DOC permite registrar e tabular os atendimentos dessa operação.",
-        // TODO: confirmar informação com Matheus. Fluxos e decisões técnicas divulgáveis.
-      ],
-      participation: ["Participei do desenvolvimento da solução de ponta a ponta, atuando desde a modelagem dos dados até o desenvolvimento do frontend, backend e processo de deploy."],
-      metrics: [
-        { value: "90", label: "atendentes" },
-        { value: "3.000+", label: "atendimentos registrados diariamente" },
-      ],
-    },
-  },
-  {
+    {
     slug: "deixa-na-conta",
     title: "Deixa na Conta",
     shortDescription: "Aplicação de gestão financeira e de clientes, com controle de cobranças e pagamentos.",
@@ -116,7 +86,39 @@ export const projects = [
     },
     // TODO: confirmar informação com Matheus. Screenshots autorizadas, aplicação pública, deploy e infraestrutura.
   },
-] satisfies readonly Project[];
 
+
+  {
+    slug: "get-doc",
+    title: "GET DOC",
+    shortDescription:
+      "Sistema de registro e tabulação de atendimentos utilizado em contexto profissional real.",
+    role: "Participação em frontend, backend, dados e deploy.",
+    featured: true,
+    // TODO: confirmar informação com Matheus. Tecnologias divulgáveis do GET DOC.
+    technologies: [],
+    highlights: [
+      "90 atendentes",
+      "Mais de 3.000 atendimentos registrados diariamente",
+    ],
+    proprietary: true,
+    confidentialityNotice:
+      "Projeto proprietário. O código não está disponível publicamente por política da empresa.",
+    caseStudy: {
+      context: ["Sistema de registro e tabulação de atendimentos utilizado em contexto profissional real."],
+      problem: ["Registrar e tabular os atendimentos de uma operação com 90 atendentes e mais de 3.000 atendimentos registrados diariamente."],
+      solution: [
+        "O GET DOC permite registrar e tabular os atendimentos dessa operação.",
+        // TODO: confirmar informação com Matheus. Fluxos e decisões técnicas divulgáveis.
+      ],
+      participation: ["Participei do desenvolvimento da solução de ponta a ponta, atuando desde a modelagem dos dados até o desenvolvimento do frontend, backend e processo de deploy."],
+      metrics: [
+        { value: "90", label: "atendentes" },
+        { value: "3.000+", label: "atendimentos registrados diariamente" },
+      ],
+    },
+  },
+
+] satisfies readonly Project[];
 // TODO: confirmar informação com Matheus. Status, arquiteturas reais e imagens permitidas.
 // TODO: confirmar informação com Matheus. Repositório e demonstração pública, se existirem.

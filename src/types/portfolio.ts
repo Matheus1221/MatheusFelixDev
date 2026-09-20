@@ -10,6 +10,7 @@ export type Profile = {
   technicalEducation?: {
     course: string;
     startYear: number;
+    endYear: number;
   };
   email?: string;
   githubUrl?: string;
