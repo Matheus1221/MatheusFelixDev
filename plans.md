@@ -34,6 +34,45 @@ O repositório também fará parte da apresentação profissional. Portanto, ele
 
 ---
 
+## 0.1 Fluxo obrigatório: issue -> branch -> PR -> deploy
+
+Diretriz definida por Matheus em 27/09/2026, válida para todos os agentes e
+colaboradores. O arquivo canônico é `plans.md` (este arquivo); referências antigas
+a `PLAN.md` ou `plan.md` devem ser entendidas como referências a ele.
+
+1. Antes de implementar qualquer tarefa, criar uma issue no GitHub ou reutilizar
+   uma issue aberta que já cubra o trabalho. Isso inclui correções, melhorias,
+   novas funcionalidades, documentação e ajustes de qualidade.
+2. Descrever na issue o problema, o escopo, as decisões relevantes e os critérios
+   de aceite. Não criar antecipadamente issues para todas as ideias opcionais do
+   plano: registrar o trabalho que será realmente realizado.
+3. Criar uma branch a partir da revisão correta da `main`, com nome identificável
+   e número da issue, por exemplo `feat/2-hero-motion`. Preservar alterações locais
+   do autor e incluir no commit somente o que pertence às issues atendidas.
+4. Validar a mudança e abrir um Pull Request para `main`. Na descrição, mencionar
+   todas as issues: `Closes #N` para entregas completas ou `Refs #N` para parciais.
+   Explicar comportamento, validações, limitações e impacto no deploy. Usar o
+   template em `.github/PULL_REQUEST_TEMPLATE.md`.
+5. Mudanças relacionadas podem compartilhar um PR pequeno; tarefas independentes
+   devem ter PRs próprios. Não fazer push direto na `main`.
+6. Conferir CI e preview da Vercel, quando disponível, na revisão final do PR.
+   Se houver falha, corrigir ou registrar o bloqueio; não declarar a revisão pronta
+   para produção com checks pendentes ou reprovados.
+7. O merge na `main` é o ponto de publicação em produção pela integração da Vercel.
+   Preparar issue/branch/PR não autoriza merge, auto-merge ou deploy direto via CLI.
+   Aguardar revisão e autorização explícita para publicar a revisão, aproveitando
+   uma autorização já concedida para essa mesma entrega sem perguntar novamente.
+8. Após merge autorizado, conferir o deploy da mesma revisão e o fechamento das
+   issues concluídas. Não fechar uma issue só porque o PR foi aberto.
+
+O CI e a Vercel são integrações separadas: documentar esse fluxo não configura
+automaticamente proteção de branch nem impede tecnicamente um push direto.
+Não afirmar que checks são obrigatórios no GitHub sem verificar essa configuração.
+Estas regras prevalecem sobre instruções antigas de enviar mudanças diretamente
+para `main` em documentação de publicação.
+
+---
+
 # 1. Objetivo profissional
 
 O objetivo deste projeto é aumentar a qualidade da apresentação profissional de Matheus Felix para processos seletivos de desenvolvimento de software.
@@ -1164,6 +1203,64 @@ Objetivo: primeira impressão rápida.
 
 ---
 
+## 24.1 Motion como acabamento de interface
+
+Menos animação é a escolha padrão. GSAP e `@gsap/react` só devem ser usados
+quando houver ganho concreto; não aplicar efeitos a todas as seções.
+
+Antes de editar um componente, registrar na issue/PR:
+
+1. A animação melhora a experiência?
+2. Estabelece hierarquia visual?
+3. Direciona a atenção para informação importante?
+4. Torna a transição mais natural?
+5. CSS já seria suficiente?
+6. Qual é o motivo real para usar GSAP?
+
+Se não houver benefício claro, manter estático. Hover, foco, cores, underline e
+pequenas transições de botões continuam em CSS. Não alterar layout, tipografia,
+cores ou identidade para acomodar motion.
+
+### Regras de implementação
+
+- Preferir `useGSAP(() => { ... }, { scope: container })`, com seletores locais.
+- Limitar `"use client"` à fronteira de animação; manter conteúdo/páginas no servidor.
+- Reverter tweens, contextos e listeners ao desmontar. Não criar um controlador
+  global que anime elementos de outros componentes.
+- Usar deslocamentos pequenos e transform/opacity, durações em geral entre 0,3 e
+  0,9s e easings como `power2.out` e `power3.out`. Mobile deve ter menos movimento.
+- Respeitar `prefers-reduced-motion`, inclusive mudanças de preferência durante
+  a visita. Conteúdo deve estar visível no HTML, com JavaScript desativado ou falho.
+- Não esconder conteúdo essencial em CSS aguardando uma animação. Não atrasar
+  links, foco, leitura ou navegação; não criar animações contínuas de texto.
+- ScrollTrigger somente se uma entrada na viewport trouxer benefício comprovado;
+  poucos triggers, preferencialmente uma vez, em torno de `top 85%`.
+- Não usar scrub, pin, parallax, scroll hijacking, cursores especiais, botões
+  magnéticos, efeitos por caractere ou movimento exagerado neste escopo.
+- Timeline somente para uma sequência real; não instalar plugins extras para
+  demonstrar a biblioteca. CSS suficiente significa não usar GSAP naquele ponto.
+
+### Análise aprovada para a primeira entrega de motion
+
+| Área | Decisão e motivo |
+| --- | --- |
+| Hero | Uma entrada curta de título e descrição, coordenada por Timeline local. Destaca primeiro o papel profissional e depois o resumo. |
+| Uso de GSAP | CSS atenderia uma entrada isolada; a sequência de dois textos usa a mesma Timeline, scope, reversão e cancelamento por preferência. Sem orquestração global. |
+| Leitura e ações | Nome, botões, links e nota profissional ficam estáticos. Nenhum texto perde opacidade ou visibilidade; apenas transform é animado. |
+| Mobile | 6px e 0,34s no total, contra 12px e 0,53s no desktop. |
+| Projetos, sobre, currículo, experiência, stack e contato | Estáticos nesta entrega: conteúdo denso de consulta não ganha com revelações repetidas. |
+| Header, footer, hover e foco | Preservar comportamento atual; interações simples permanecem em CSS. |
+| ScrollTrigger | Não necessário; nenhum trigger, pin ou scrub é adicionado. |
+
+A entrada ocorre ao montar o Hero no topo da página, sem repetição em scroll
+ou troca de tema. Redução de movimento ativa ou restauração de scroll pulam
+o efeito. Uma nova visita à Home pode montar uma nova entrada curta.
+
+Referências: [GSAP com React](https://gsap.com/resources/React/) e
+[gsap.matchMedia](https://gsap.com/docs/v3/GSAP/gsap.matchMedia()/).
+
+---
+
 # 25. SEO
 
 Implementar no MVP:
@@ -1578,6 +1675,21 @@ TASK-066 Configurar domínio se disponível
 TASK-067 Smoke test em produção
 TASK-068 Fixar repositório no perfil
 ```
+
+---
+
+## Milestone 8 — Fluxo por PR e motion pontual (solicitado em 27/09/2026)
+
+- [Issue #1](https://github.com/Matheus1221/MatheusFelixDev/issues/1): documentar
+  o fluxo obrigatório por issues e PRs, com template e orientações para agentes.
+- [Issue #2](https://github.com/Matheus1221/MatheusFelixDev/issues/2): implementar
+  somente a entrada do Hero definida na análise da seção 24.1.
+- [Issue #3](https://github.com/Matheus1221/MatheusFelixDev/issues/3): corrigir
+  a expectativa de ordem do teste de sitemap, preservando o catálogo do autor.
+
+Definition of Done: validações locais e CI aprovados, comportamento conferido
+no navegador, PR vinculado às três issues e revisão disponível. Publicação em
+produção permanece uma etapa posterior de merge autorizado.
 
 ---
 

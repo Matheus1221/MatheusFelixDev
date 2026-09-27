@@ -9,6 +9,7 @@ import { ProjectCard } from "@/components/project/project-card";
 import { ExperienceTimeline } from "@/components/experience-timeline";
 import { ProfessionalLinks } from "@/components/professional-links";
 import { createPageMetadata } from "@/lib/metadata";
+import { HeroMotion } from "@/components/hero-motion";
 
 export const metadata = createPageMetadata(
   `${profile.name} — ${profile.role}`, profile.summary, "/",
@@ -18,15 +19,17 @@ export default function HomePage() {
   return (
     <main id="conteudo" tabIndex={-1}>
       <Section className="intro" aria-labelledby="intro-title">
-        <p className="eyebrow">{profile.name} / Portfólio</p>
-        <Heading as="h1" id="intro-title">{profile.role}</Heading>
-        <p className="intro-summary">{profile.summary}</p>
-        <div className="hero-actions">
-          <a className="button button--primary" href="#projetos">Ver projetos <span aria-hidden="true">↗</span></a>
-          <Link className="button button--secondary" href="/curriculo">Ver currículo <span aria-hidden="true">↗</span></Link>
-        </div>
-        <p className="hero-footnote">Desenvolvimento profissional desde {profile.professionalSince}.</p>
-        <ProfessionalLinks profile={profile} />
+        <HeroMotion>
+          <p className="eyebrow">{profile.name} / Portfólio</p>
+          <Heading as="h1" id="intro-title" data-hero-title>{profile.role}</Heading>
+          <p className="intro-summary" data-hero-description>{profile.summary}</p>
+          <div className="hero-actions">
+            <a className="button button--primary" href="#projetos">Ver projetos <span aria-hidden="true">↗</span></a>
+            <Link className="button button--secondary" href="/curriculo">Ver currículo <span aria-hidden="true">↗</span></Link>
+          </div>
+          <p className="hero-footnote">Desenvolvimento profissional desde {profile.professionalSince}.</p>
+          <ProfessionalLinks profile={profile} />
+        </HeroMotion>
       </Section>
 
       <Section id="projetos" className="projects-section" aria-labelledby="projects-title">
