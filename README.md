@@ -24,7 +24,7 @@ e o [guia de publicação](docs/deployment.md).
 - Milestones 1 a 5 implementados: base, design system, Home, cases, currículo e contato.
 - Milestone 6: SEO, layout, teclado, temas e medição de performance em laboratório revisados; limites da validação descritos abaixo.
 - Milestone 7: README, screenshots, CI no GitHub e deploy na Vercel concluídos; site público validado.
-- Milestone 8: fluxo por issues/PRs, entrada discreta do Hero e teste de sitemap implementados; validação local concluída, com revisão e publicação pelo PR.
+- Milestone 8: fluxo por issues/PRs, motion no Hero e em blocos selecionados, e teste de sitemap; ampliação acompanhada na issue #5 e no PR #4.
 - Perfil em `src/data/profile.ts`, com os contatos fornecidos por Matheus.
 - Experiências em andamento usam `endDate: null` ou omitem a propriedade.
 - PDF e detalhes ainda não confirmados dos cases permanecem como TODOs nos arquivos de manutenção, sem aparecer como anotações no site.
@@ -91,7 +91,7 @@ separadamente. Consulte as [execuções do CI](https://github.com/Matheus1221/Ma
 
 Next.js 16, React 19, TypeScript strict, CSS e Geist. O App Router organiza as
 rotas. Server Components mantêm o conteúdo no servidor. `ThemeToggle` cuida das
-preferências e armazenamento local; `HeroMotion` isola a entrada pontual com
+preferências e armazenamento local; `HeroMotion` e `ScrollReveal` isolam motion com
 GSAP e `@gsap/react`, recebendo o conteúdo renderizado no servidor como children.
 
 ```text
@@ -100,6 +100,7 @@ Navegador → Next.js App Router
              ├── Conteúdo TypeScript local
              ├── ThemeToggle no cliente
              ├── HeroMotion no cliente, somente na Home
+             ├── ScrollReveal local em projetos e blocos selecionados
              └── Metadata, sitemap, robots e imagem social
 ```
 
@@ -109,16 +110,28 @@ API própria ou Server Actions. CSS com tokens atende ao design sem biblioteca v
 
 O Hero anima apenas o título e a descrição por até 0,53s (0,34s no mobile), com
 deslocamento de 12px/6px. Texto permanece opaco e visível; botões e links não esperam
-a entrada terminar. `useGSAP` e `gsap.matchMedia` cuidam de scope e cleanup; movimento
-reduzido desativa a entrada. Não há ScrollTrigger, animação de scroll ou efeito nas
-demais seções. Hover e foco continuam em CSS. A justificativa está na seção 24.1
-de [plans.md](plans.md).
+a entrada terminar.
 
-Validação desta entrega em 27/09/2026: lint, typecheck, 13 testes, build e auditoria
-HTTP aprovados. No Chrome, foram conferidos 375px e 1440px, movimento reduzido,
-JavaScript desativado e scripts bloqueados: conteúdo visível e sem overflow
-horizontal. Também foram verificadas troca de preferência durante a entrada,
-navegação entre páginas, troca de tema e ativação do link de projetos pelo teclado.
+A ampliação inclui entrada de cada projeto e detalhe nas capas, bloco Sobre,
+empregos da Home, categorias da stack, CTA final e página de contato. ScrollTrigger
+dispara as entradas uma vez em `top 85%`, sem pin, scrub ou interferência no scroll.
+São nove triggers na Home com os dados atuais e um em contato. O desktop usa até
+24px e 0,81s; mobile usa até 10px e 0,4s, com a stack entrando como bloco único.
+Não há estilos que ocultem conteúdo enquanto aguarda a viewport.
+
+`useGSAP` e `gsap.matchMedia` cuidam de scope e cleanup; movimento reduzido e
+impressão desativam os efeitos. Hover e foco continuam em CSS. Currículo, textos
+dos cases, header e footer ficam estáticos. A análise está na seção 24.1 de
+[plans.md](plans.md).
+
+Validação da ampliação em 27/09/2026: lint, typecheck, 13 testes, build e auditoria
+HTTP aprovados. No Chrome, a Home foi conferida em 375px e 1440px com motion normal,
+reduzido, JavaScript desativado e scripts bloqueados: conteúdo visível e sem overflow.
+Também passaram rolagem rápida, entradas sem repetição, details, âncoras, teclado,
+troca de preferência/tema/breakpoint, impressão e interrupção por navegação com
+reversão dos estilos. Três ciclos Home/contato não apresentaram erros de execução.
+Home e currículo foram conferidos adicionalmente em 320, 768, 1024 e 1920px com
+movimento reduzido; a timeline do currículo permanece estática.
 Essa conferência pontual não constitui uma suíte permanente de testes de navegador.
 
 ```text

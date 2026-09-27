@@ -16,7 +16,7 @@ export function HeroMotion({ children }: { children: ReactNode }) {
     const media = gsap.matchMedia();
     let hasPlayed = false;
 
-    media.add("(prefers-reduced-motion: no-preference)", () => {
+    media.add("screen and (prefers-reduced-motion: no-preference)", () => {
       if (hasPlayed) return;
       hasPlayed = true;
 
