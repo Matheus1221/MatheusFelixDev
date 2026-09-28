@@ -24,7 +24,7 @@ e o [guia de publicação](docs/deployment.md).
 - Milestones 1 a 5 implementados: base, design system, Home, cases, currículo e contato.
 - Milestone 6: SEO, layout, teclado, temas e medição de performance em laboratório revisados; limites da validação descritos abaixo.
 - Milestone 7: README, screenshots, CI no GitHub e deploy na Vercel concluídos; site público validado.
-- Milestone 8: fluxo por issues/PRs, motion no Hero e em blocos selecionados, e teste de sitemap; ampliação acompanhada na issue #5 e no PR #4.
+- Milestone 8: fluxo por issues/PRs, motion com SplitText e ScrollTrigger, e teste de sitemap; refinamentos e relatório acompanhados nas issues #5/#6 e no PR #4.
 - Perfil em `src/data/profile.ts`, com os contatos fornecidos por Matheus.
 - Experiências em andamento usam `endDate: null` ou omitem a propriedade.
 - PDF e detalhes ainda não confirmados dos cases permanecem como TODOs nos arquivos de manutenção, sem aparecer como anotações no site.
@@ -108,15 +108,18 @@ O conteúdo é pequeno e versionado junto ao código: não há necessidade de ba
 ou CMS. O MVP não tem regras de negócio que justifiquem backend separado,
 API própria ou Server Actions. CSS com tokens atende ao design sem biblioteca visual.
 
-O Hero anima apenas o título e a descrição por até 0,53s (0,34s no mobile), com
-deslocamento de 12px/6px. Texto permanece opaco e visível; botões e links não esperam
-a entrada terminar.
+O Hero anima as linhas do título com SplitText e coordena a descrição em uma
+Timeline de até 0,65s (0,39s no mobile). O título se desloca até 20px/8px e
+permanece opaco e visível; botões e links não esperam a entrada terminar.
+autoSplit/onSplit acompanham mudanças de fonte/largura e revert restaura o HTML.
 
 A ampliação inclui entrada de cada projeto e detalhe nas capas, bloco Sobre,
 empregos da Home, categorias da stack, CTA final e página de contato. ScrollTrigger
 dispara as entradas uma vez em `top 85%`, sem pin, scrub ou interferência no scroll.
-São nove triggers na Home com os dados atuais e um em contato. O desktop usa até
-24px e 0,81s; mobile usa até 10px e 0,4s, com a stack entrando como bloco único.
+São nove triggers na Home com os dados atuais e um em contato. Os blocos usam até
+24px e 0,78s no desktop; mobile usa até 10px e 0,4s, com a stack como bloco único.
+As marcas decorativas das capas usam máscaras por linha (100%/30% de deslocamento
+na própria máscara), em até 0,71s/0,4s. O título acessível de cada projeto fica visível.
 Não há estilos que ocultem conteúdo enquanto aguarda a viewport.
 
 `useGSAP` e `gsap.matchMedia` cuidam de scope e cleanup; movimento reduzido e
@@ -133,6 +136,12 @@ reversão dos estilos. Três ciclos Home/contato não apresentaram erros de exec
 Home e currículo foram conferidos adicionalmente em 320, 768, 1024 e 1920px com
 movimento reduzido; a timeline do currículo permanece estática.
 Essa conferência pontual não constitui uma suíte permanente de testes de navegador.
+
+SplitText também foi conferido em 320, 375, 768, 1024, 1440 e 1920px: linhas em
+blocos transformáveis, proporções preservadas e HTML restaurado após a entrada.
+Passaram fonte atrasada, resize, movimento reduzido e desmontagem durante o Hero.
+O [relatório de animações](docs/animations.md) detalha os efeitos, parâmetros,
+referências oficiais, arquitetura, manutenção e limites das verificações.
 
 ```text
 .github/workflows/  Validação no GitHub Actions

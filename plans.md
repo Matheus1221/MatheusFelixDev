@@ -1240,7 +1240,7 @@ cores ou identidade para acomodar motion.
 - Timeline somente para uma sequência real; não instalar plugins extras para
   demonstrar a biblioteca. CSS suficiente significa não usar GSAP naquele ponto.
 
-### Análise vigente de motion — ampliação solicitada na issue #5
+### Análise vigente de motion — issues #5 e #6
 
 Em 27/09/2026, Matheus pediu uma quantidade mais perceptível de animações.
 A revisão inicial, limitada ao Hero, foi ampliada ainda no milestone 8/PR #4.
@@ -1248,16 +1248,21 @@ Aplicar entradas a blocos selecionados, preservando as restrições de leitura,
 identidade, navegação e acessibilidade. Essa solicitação substitui o limite
 anterior de animar somente o Hero.
 
+A issue #6 acrescenta o repertório das demos oficiais de SplitText e All Demos,
+com as skills oficiais de GSAP. Aplicar os padrões pertinentes ao produto:
+divisão por linhas, restauração do HTML e máscaras apenas em cópias decorativas.
+O catálogo é referência de desenvolvimento, não uma lista de efeitos obrigatórios.
+
 | Área | Decisão e motivo |
 | --- | --- |
-| Hero | Uma entrada curta de título e descrição, coordenada por Timeline local. Destaca primeiro o papel profissional e depois o resumo. |
-| Uso de GSAP | CSS atenderia uma entrada isolada; a sequência de dois textos usa a mesma Timeline, scope, reversão e cancelamento por preferência. Sem orquestração global. |
+| Hero | SplitText por linhas no título, seguido da descrição em Timeline local. Usar autoSplit/onSplit e restaurar o HTML original ao terminar. Sem máscara ou fade no título essencial. |
+| Uso de GSAP | Divisão real de linhas, sincronização com fontes/larguras e coordenação de timelines locais, com reversão e cancelamento por preferência. Sem orquestração global. |
 | Leitura e ações | Nome, botões, links e nota profissional ficam estáticos. Nenhum texto perde opacidade ou visibilidade; apenas transform é animado. |
-| Mobile | 6px e 0,34s no total, contra 12px e 0,53s no desktop. |
-| Projetos | Cada card entra junto, até 24px; Timeline coordena escala de 0,98 da marca decorativa e desenho da linha da capa. O texto nunca é ocultado. |
+| Mobile no Hero | Título até 8px e 0,39s no total, contra 20px e 0,65s no desktop; descrição até 6px/12px. |
+| Projetos | Cada card entra junto, até 24px; Timeline coordena máscara por linhas da marca decorativa e desenho da linha da capa. O h3 acessível permanece visível. |
 | Sobre | Entrada única do bloco principal, até 18px, para marcar a transição entre projetos e trajetória. |
 | Experiência da Home | Cada emprego entra junto: empresa, cargo e período não são fragmentados. |
-| Stack | Categorias entram com stagger de 0,07s no desktop; bloco único no mobile. Não animar badges individualmente. |
+| Stack | Categorias entram com stagger total de 0,18s no desktop; bloco único no mobile. Não animar badges individualmente. |
 | Contato | Entrada do CTA final e do bloco da página de contato; links continuam imediatamente utilizáveis. |
 | Currículo e conteúdo dos cases | Permanecem estáticos para consulta e impressão. |
 | Header, footer, hover e foco | Preservar comportamento atual; interações simples permanecem em CSS. |
@@ -1265,14 +1270,22 @@ anterior de animar somente o Hero.
 
 O Hero mantém sua entrada curta ao montar no topo da página. `ScrollReveal`
 delimita cada bloco localmente, recebendo conteúdo renderizado no servidor.
-As novas entradas duram 0,6s (até 0,81s na stack), com 0,4s e deslocamento de
+As entradas de blocos duram 0,6s (até 0,78s na stack), com 0,4s e deslocamento de
 10px no mobile. Não há movimento preparado fora da viewport: `immediateRender`
-fica desativado. Apenas detalhes decorativos da capa usam escala.
+fica desativado. A capa usa SplitText com máscara por linhas: 100% de deslocamento
+vertical dentro da máscara no desktop e 30% no mobile; sequência total até
+0,71s/0,4s. O título acessível do card nunca é mascarado. O CSS de display:block
+atinge somente spans temporários de SplitText, sem alterar a tipografia base.
 
 Movimento reduzido ou impressão revertem os efeitos. Mudanças de breakpoint
 não repetem blocos já apresentados. Ao montar com scroll restaurado, os blocos
 já alcançados ficam estáticos. Uma nova visita pode apresentar novamente as
 entradas. Contextos, tweens e triggers são revertidos ao desmontar.
+
+O inventário, as referências consultadas, os parâmetros e a matriz de validação
+ficam em [docs/animations.md](docs/animations.md). Consultar esse relatório antes
+de modificar motion. Não instalar todas as skills/plugins ou copiar todas as demos
+sem analisar a necessidade de cada comportamento.
 
 Referências: [GSAP com React](https://gsap.com/resources/React/),
 [gsap.matchMedia](https://gsap.com/docs/v3/GSAP/gsap.matchMedia()/) e
@@ -1708,9 +1721,12 @@ TASK-068 Fixar repositório no perfil
 - [Issue #5](https://github.com/Matheus1221/MatheusFelixDev/issues/5): ampliar motion
   em projetos, sobre, experiência, stack e contato conforme a seção 24.1,
   atendendo à solicitação posterior de mais dinamismo no mesmo PR #4.
+- [Issue #6](https://github.com/Matheus1221/MatheusFelixDev/issues/6): refinar as
+  entradas com SplitText e skills/demos oficiais, mantendo a arquitetura e
+  entregando relatório das animações em Markdown e PDF.
 
 Definition of Done: validações locais e CI aprovados, comportamento conferido
-no navegador, PR vinculado às quatro issues e revisão disponível. Publicação em
+no navegador, PR vinculado às cinco issues e relatório disponível. Publicação em
 produção permanece uma etapa posterior de merge autorizado.
 
 ---

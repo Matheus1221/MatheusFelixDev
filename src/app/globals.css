@@ -94,6 +94,8 @@ a { color: inherit; }
 .heading--h1 { max-width: 16ch; font-size: clamp(2.5rem, 7vw, 5.5rem); }
 .heading--h2 { font-size: clamp(2rem, 4vw, 3rem); }
 .heading--h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+/* Temporary SplitText spans need block boxes for transforms and line masks. */
+.hero-line, .project-title-line, .project-title-line-mask { display: block; }
 .eyebrow {
   margin: 0 0 var(--space-8);
   color: var(--accent);
