@@ -2,6 +2,9 @@
 
 - Leia `plans.md` inteiro antes de alterar código. É a fonte de verdade do projeto.
 - Confira o progresso no `README.md` e inspecione o repositório antes de editar.
+- Para toda tarefa (correção, melhoria, funcionalidade ou documentação), crie ou reutilize uma issue no GitHub antes de implementar; siga o fluxo obrigatório da seção 0.1 de `plans.md`.
+- Trabalhe em branch e entregue por PR com `Closes #N` ou `Refs #N` na descrição. Não faça push direto na `main`, merge ou deploy de produção sem autorização explícita para publicar a revisão.
+- Para motion, siga a seção 24.1 de `plans.md`: analise o ganho, prefira estático/CSS e limite GSAP ao componente que precisa dele.
 - Implemente somente o próximo milestone pendente; valide e pare antes do seguinte.
 - Preserve alterações existentes e mantenha a aplicação executável.
 - Prefira Server Components, TypeScript strict e dependências justificadas.

@@ -3,6 +3,7 @@ import { profile } from "@/data/profile";
 import { Section } from "@/components/ui/section";
 import { Heading } from "@/components/ui/heading";
 import { createPageMetadata } from "@/lib/metadata";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import {contact, channels} from "./contact"
 
 export const metadata = createPageMetadata(
@@ -17,7 +18,7 @@ export default function ContactPage() {
   return (
     <main id="conteudo" tabIndex={-1}>
       <Section className="contact-page" aria-labelledby="contact-page-title">
-        <div className="section-grid">
+        <ScrollReveal className="section-grid">
           <div>
             <p className="eyebrow">Contato / {profile.name}</p>
             <Heading as="h1" id="contact-page-title">Vamos conversar?</Heading>
@@ -38,7 +39,7 @@ export default function ContactPage() {
             {contact.location && <p className="muted">Localização: {contact.location}</p>}
             {contact.availability && <p className="muted">{contact.availability}</p>}
           </div>
-        </div>
+        </ScrollReveal>
       </Section>
     </main>
   );

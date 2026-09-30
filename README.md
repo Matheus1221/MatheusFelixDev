@@ -16,13 +16,15 @@ claro, escuro e sistema.
 Capturas reais do build de produção local em 1440 × 900 e 375 × 900px.
 **Site publicado:** [matheus-felix-portfolio.vercel.app](https://matheus-felix-portfolio.vercel.app).
 Hospedado na Vercel, no workspace MatheusDev (Hobby), com deploy pela branch
-`main`. Consulte o [guia de publicação](docs/deployment.md).
+`main` após merge de PR revisado. Consulte o [fluxo obrigatório em plans.md](plans.md)
+e o [guia de publicação](docs/deployment.md).
 
 ## Estado do projeto
 
 - Milestones 1 a 5 implementados: base, design system, Home, cases, currículo e contato.
 - Milestone 6: SEO, layout, teclado, temas e medição de performance em laboratório revisados; limites da validação descritos abaixo.
 - Milestone 7: README, screenshots, CI no GitHub e deploy na Vercel concluídos; site público validado.
+- Milestone 8: fluxo por issues/PRs, motion com SplitText e ScrollTrigger, e teste de sitemap; refinamentos e relatório acompanhados nas issues #5/#6 e no PR #4.
 - Perfil em `src/data/profile.ts`, com os contatos fornecidos por Matheus.
 - Experiências em andamento usam `endDate: null` ou omitem a propriedade.
 - PDF e detalhes ainda não confirmados dos cases permanecem como TODOs nos arquivos de manutenção, sem aparecer como anotações no site.
@@ -30,6 +32,15 @@ Hospedado na Vercel, no workspace MatheusDev (Hobby), com deploy pela branch
 O [plans.md](plans.md) define o escopo e a arquitetura. Informações posteriormente
 atualizadas por Matheus nos dados devem ser preservadas. As orientações de
 manutenção estão em [AGENTS.md](AGENTS.md).
+
+## Fluxo de trabalho
+
+Toda correção, melhoria, funcionalidade ou documentação começa com uma issue.
+Trabalhe em branch, valide e abra PR para `main`, mencionando as issues na descrição
+com `Closes #N` ou `Refs #N`. O template do repositório orienta escopo e validações.
+Não faça push direto na `main`. CI e preview devem ser conferidos antes da revisão
+e do merge autorizado, que aciona produção. Abrir um PR não autoriza publicar.
+As regras completas ficam na seção 0.1 de [plans.md](plans.md).
 
 ## Executar localmente
 
@@ -79,20 +90,58 @@ separadamente. Consulte as [execuções do CI](https://github.com/Matheus1221/Ma
 ## Stack e arquitetura
 
 Next.js 16, React 19, TypeScript strict, CSS e Geist. O App Router organiza as
-rotas. Server Components mantêm o conteúdo no servidor. Apenas `ThemeToggle`
-precisa de um ponto de entrada de Client Components para preferências e armazenamento local.
+rotas. Server Components mantêm o conteúdo no servidor. `ThemeToggle` cuida das
+preferências e armazenamento local; `HeroMotion` e `ScrollReveal` isolam motion com
+GSAP e `@gsap/react`, recebendo o conteúdo renderizado no servidor como children.
 
 ```text
 Navegador → Next.js App Router
              ├── Páginas e layouts no servidor
              ├── Conteúdo TypeScript local
              ├── ThemeToggle no cliente
+             ├── HeroMotion no cliente, somente na Home
+             ├── ScrollReveal local em projetos e blocos selecionados
              └── Metadata, sitemap, robots e imagem social
 ```
 
 O conteúdo é pequeno e versionado junto ao código: não há necessidade de banco
 ou CMS. O MVP não tem regras de negócio que justifiquem backend separado,
 API própria ou Server Actions. CSS com tokens atende ao design sem biblioteca visual.
+
+O Hero anima as linhas do título com SplitText e coordena a descrição em uma
+Timeline de até 0,65s (0,39s no mobile). O título se desloca até 20px/8px e
+permanece opaco e visível; botões e links não esperam a entrada terminar.
+autoSplit/onSplit acompanham mudanças de fonte/largura e revert restaura o HTML.
+
+A ampliação inclui entrada de cada projeto e detalhe nas capas, bloco Sobre,
+empregos da Home, categorias da stack, CTA final e página de contato. ScrollTrigger
+dispara as entradas uma vez em `top 85%`, sem pin, scrub ou interferência no scroll.
+São nove triggers na Home com os dados atuais e um em contato. Os blocos usam até
+24px e 0,78s no desktop; mobile usa até 10px e 0,4s, com a stack como bloco único.
+As marcas decorativas das capas usam máscaras por linha (100%/30% de deslocamento
+na própria máscara), em até 0,71s/0,4s. O título acessível de cada projeto fica visível.
+Não há estilos que ocultem conteúdo enquanto aguarda a viewport.
+
+`useGSAP` e `gsap.matchMedia` cuidam de scope e cleanup; movimento reduzido e
+impressão desativam os efeitos. Hover e foco continuam em CSS. Currículo, textos
+dos cases, header e footer ficam estáticos. A análise está na seção 24.1 de
+[plans.md](plans.md).
+
+Validação da ampliação em 27/09/2026: lint, typecheck, 13 testes, build e auditoria
+HTTP aprovados. No Chrome, a Home foi conferida em 375px e 1440px com motion normal,
+reduzido, JavaScript desativado e scripts bloqueados: conteúdo visível e sem overflow.
+Também passaram rolagem rápida, entradas sem repetição, details, âncoras, teclado,
+troca de preferência/tema/breakpoint, impressão e interrupção por navegação com
+reversão dos estilos. Três ciclos Home/contato não apresentaram erros de execução.
+Home e currículo foram conferidos adicionalmente em 320, 768, 1024 e 1920px com
+movimento reduzido; a timeline do currículo permanece estática.
+Essa conferência pontual não constitui uma suíte permanente de testes de navegador.
+
+SplitText também foi conferido em 320, 375, 768, 1024, 1440 e 1920px: linhas em
+blocos transformáveis, proporções preservadas e HTML restaurado após a entrada.
+Passaram fonte atrasada, resize, movimento reduzido e desmontagem durante o Hero.
+O [relatório de animações](docs/animations.md) detalha os efeitos, parâmetros,
+referências oficiais, arquitetura, manutenção e limites das verificações.
 
 ```text
 .github/workflows/  Validação no GitHub Actions
@@ -225,5 +274,5 @@ origem antes de comparar a canônica da Home.
 - Se desejar apresentar o código publicamente, decidir a visibilidade do repositório antes de fixá-lo no perfil.
 
 O MVP está publicado. O próximo passo é complementar o conteúdo confirmado
-nos arquivos de dados e enviar as alterações para `main`. Melhorias opcionais
+nos arquivos de dados por issue e PR, com revisão antes do merge na `main`. Melhorias opcionais
 como analytics, formulário, CMS ou backend ficam para uma decisão posterior.

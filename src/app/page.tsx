@@ -9,6 +9,8 @@ import { ProjectCard } from "@/components/project/project-card";
 import { ExperienceTimeline } from "@/components/experience-timeline";
 import { ProfessionalLinks } from "@/components/professional-links";
 import { createPageMetadata } from "@/lib/metadata";
+import { HeroMotion } from "@/components/hero-motion";
+import { ScrollReveal } from "@/components/scroll-reveal";
 
 export const metadata = createPageMetadata(
   `${profile.name} — ${profile.role}`, profile.summary, "/",
@@ -18,15 +20,17 @@ export default function HomePage() {
   return (
     <main id="conteudo" tabIndex={-1}>
       <Section className="intro" aria-labelledby="intro-title">
-        <p className="eyebrow">{profile.name} / Portfólio</p>
-        <Heading as="h1" id="intro-title">{profile.role}</Heading>
-        <p className="intro-summary">{profile.summary}</p>
-        <div className="hero-actions">
-          <a className="button button--primary" href="#projetos">Ver projetos <span aria-hidden="true">↗</span></a>
-          <Link className="button button--secondary" href="/curriculo">Ver currículo <span aria-hidden="true">↗</span></Link>
-        </div>
-        <p className="hero-footnote">Desenvolvimento profissional desde {profile.professionalSince}.</p>
-        <ProfessionalLinks profile={profile} />
+        <HeroMotion>
+          <p className="eyebrow">{profile.name} / Portfólio</p>
+          <Heading as="h1" id="intro-title" data-hero-title>{profile.role}</Heading>
+          <p className="intro-summary" data-hero-description>{profile.summary}</p>
+          <div className="hero-actions">
+            <a className="button button--primary" href="#projetos">Ver projetos <span aria-hidden="true">↗</span></a>
+            <Link className="button button--secondary" href="/curriculo">Ver currículo <span aria-hidden="true">↗</span></Link>
+          </div>
+          <p className="hero-footnote">Desenvolvimento profissional desde {profile.professionalSince}.</p>
+          <ProfessionalLinks profile={profile} />
+        </HeroMotion>
       </Section>
 
       <Section id="projetos" className="projects-section" aria-labelledby="projects-title">
@@ -45,7 +49,7 @@ export default function HomePage() {
       </Section>
 
       <Section id="sobre" aria-labelledby="about-title">
-        <div className="section-grid">
+        <ScrollReveal className="section-grid">
           <div>
             <p className="eyebrow">02 / Sobre</p>
             <Heading id="about-title">Da necessidade à aplicação.</Heading>
@@ -65,7 +69,7 @@ export default function HomePage() {
               </div>
             )}
           </div>
-        </div>
+        </ScrollReveal>
       </Section>
 
       <Section id="experiencia" className="bordered-section" aria-labelledby="experience-title">
@@ -74,7 +78,9 @@ export default function HomePage() {
             <p className="eyebrow">03 / Experiência</p>
             <Heading id="experience-title">Trajetória profissional.</Heading>
           </div>
-          <ExperienceTimeline />
+          <ScrollReveal variant="timeline">
+            <ExperienceTimeline />
+          </ScrollReveal>
         </div>
       </Section>
 
@@ -86,24 +92,26 @@ export default function HomePage() {
           </div>
           <p className="section-description">Tecnologias que fazem parte da minha experiência em interfaces, serviços, dados e engenharia.</p>
         </div>
-        <div className="stack-grid">
+        <ScrollReveal className="stack-grid" variant="stagger">
           {stack.map((group) => (
-            <div key={group.category} className="stack-group">
+            <div key={group.category} className="stack-group" data-reveal-item>
               <h3>{group.category}</h3>
               <ul className="tech-list">
                 {group.technologies.map((technology) => <li key={technology}><Badge>{technology}</Badge></li>)}
               </ul>
             </div>
           ))}
-        </div>
+        </ScrollReveal>
       </Section>
 
       <Section id="contato" className="contact-section" aria-labelledby="contact-title">
-        <p className="eyebrow">05 / Contato</p>
-        <Heading id="contact-title">Vamos conversar?</Heading>
-        <p className="contact-description">Sobre desenvolvimento web, projetos e oportunidades profissionais.</p>
-        <Link className="button button--primary" href="/contato">Ir para contato <span aria-hidden="true">↗</span></Link>
-        <ProfessionalLinks profile={profile} />
+        <ScrollReveal>
+          <p className="eyebrow">05 / Contato</p>
+          <Heading id="contact-title">Vamos conversar?</Heading>
+          <p className="contact-description">Sobre desenvolvimento web, projetos e oportunidades profissionais.</p>
+          <Link className="button button--primary" href="/contato">Ir para contato <span aria-hidden="true">↗</span></Link>
+          <ProfessionalLinks profile={profile} />
+        </ScrollReveal>
       </Section>
     </main>
   );

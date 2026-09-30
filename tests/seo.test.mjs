@@ -60,9 +60,11 @@ test("canonical, Open Graph and Twitter share the confirmed production origin", 
 
 test("production sitemap contains exactly the public pages and robots advertises it", () => {
   const seo = loadSeo({ SITE_URL: "https://portfolio.example", NODE_ENV: "production", VERCEL_ENV: "production" });
-  assert.deepEqual(Array.from(seo.sitemap(), (entry) => new URL(entry.url).pathname), [
+  const paths = Array.from(seo.sitemap(), (entry) => new URL(entry.url).pathname);
+  assert.equal(new Set(paths).size, paths.length, "sitemap must not contain duplicate paths");
+  assert.deepEqual(paths.toSorted(), [
     "/", "/curriculo", "/contato", "/projetos/get-doc", "/projetos/deixa-na-conta",
-  ]);
+  ].toSorted());
   assert.equal(seo.robots().rules.allow, "/");
   assert.equal(seo.robots().sitemap, "https://portfolio.example/sitemap.xml");
 });

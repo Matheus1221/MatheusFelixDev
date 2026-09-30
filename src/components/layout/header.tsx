@@ -3,7 +3,11 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { profile } from "@/data/profile";
 import Link from "next/link";
 
+
 export function Header() {
+
+
+    
   return (
     <header className="site-header">
       <Container className="header-inner">
